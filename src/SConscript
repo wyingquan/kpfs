@@ -1,0 +1,33 @@
+Import('env')
+env = env.Clone()
+
+CFLAGS =" -g -O2 -Wall -Werror -W -Wno-sign-compare -D_REENTRANT -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include  -D_FILE_OFFSET_BITS=64 -D_DARWIN_USE_64_BIT_INODE -I/usr/local/include/osxfuse/fuse  -I/opt/local/include"
+LIBS = " -L/opt/local/lib -lglib-2.0 -lintl  -L/usr/local/lib -losxfuse -pthread -liconv  -L/opt/local/lib -lcurl -lidn -lssl -lcrypto -lssl -lcrypto -lz"
+
+FUSE_CFLAGS = "-D_FILE_OFFSET_BITS=64 -D_DARWIN_USE_64_BIT_INODE -I/usr/local/include/osxfuse/fuse "
+FUSE_LIBS = "-L/usr/local/lib -losxfuse -pthread -liconv "
+
+GLIB_CFLAGS = "-I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include "
+GLIB_LIBS = "-L/opt/local/lib -lglib-2.0 -lintl "
+
+JSON_CFLAGS = "-I/opt/local/include/ "
+JSON_LIBS = "-L/opt/local/lib -ljson-c "
+
+LIBCURL_CPPFLAGS = "-I/opt/local/include"
+LIBCURL = "-L/opt/local/lib -lcurl -lidn -lssl -lcrypto -lssl -lcrypto -lz"
+
+OAUTH_CFLAGS = "-I/usr/local/include -I/opt/local/include "
+OAUTH_LIBS = "-L/usr/local/lib -loauth "
+
+env.Append(CCFLAGS=CFLAGS)
+env.Append(CCFLAGS=JSON_CFLAGS)
+env.Append(CCFLAGS=FUSE_CFLAGS)
+env.Append(CCFLAGS=GLIB_CFLAGS)
+env.Append(CCFLAGS=LIBCURL_CPPFLAGS)
+env.Append(CCFLAGS=OAUTH_CFLAGS)
+
+env.Append(CCFLAGS='-DFUSE_USE_VERSION=26')
+
+env.Append(LIBPATH=['/opt/local/lib'])
+
+env.Program(target="kpfs",source=Glob('*.c'),LIBS=['iconv','glib-2.0','json-c','osxfuse','oauth','curl'])

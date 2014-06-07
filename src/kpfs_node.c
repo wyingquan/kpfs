@@ -32,7 +32,7 @@
 #include <curl/curl.h>
 
 #define __STRICT_ANSI__
-#include <json/json.h>
+#include <json-c/json.h>
 
 #include "kpfs.h"
 #include "kpfs_node.h"
@@ -161,7 +161,7 @@ int kpfs_node_get_root_path()
 	char *response = NULL;
 	json_object *jobj = NULL;
 	off_t quota_used = 0;
-	off_t quota_total = 0;
+	long quota_total = 0;
 	off_t max_file_size = 0;
 	int len = 512;
 	char *user_name = NULL;
